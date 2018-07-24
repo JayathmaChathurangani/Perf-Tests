@@ -19,7 +19,8 @@
 
 echo "Start Testing"
 
-concurrent_users=(100 500 1000)
+concurrent_users=(600)
+#did for 100 300 500 700 1000 1 2 50 400 800
 
 #########################
 #Ballerina Host Machine 
@@ -27,25 +28,25 @@ concurrent_users=(100 500 1000)
 
 host1_ip=192.168.0.2
 host1_port=8080
-host1_username_ip=user@192.168.0.2
-host1_password=user
+host1_username_ip=Dell@192.168.0.2
+host1_password=T@19900119
 
 ##########################
 #Client Machine 
 ##########################
 
-file_host1_remote_commands=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/Ballerina/BashScipts_Client/startHelloBallerina.txt
-file_host1_kill_ballerinaservice=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/Ballerina/BashScipts_Client/killHelloBallerina.txt
+file_host1_remote_commands=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/1_Ballerina/BashScipts_Client/startHelloBallerina.txt
+file_host1_kill_ballerinaservice=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/1_Ballerina/BashScipts_Client/killHelloBallerina.txt
 
 path_putty=E:/1_2018_Installed/putty/putty.exe
 path_jmeter=E:/4_Year_1_Sem/SENG_Research/4_Software/apache-jmeter-4.0/apache-jmeter-4.0/bin/jmeter.sh
 
-location_jtls=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/Ballerina/jtl_Results_Round1
-location_jmx_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/Ballerina/Ballerina_Echo_Service_Test.jmx
-location_jtl_splitter_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/Ballerina/jtl-splitter-0.1.1-SNAPSHOT.jar
+location_jtls=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/1_Ballerina/jtl_Results_Round41
+location_jmx_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/1_Ballerina/Ballerina_Echo_Service_Test.jmx
+location_jtl_splitter_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/1_Ballerina/jtl-splitter-0.1.1-SNAPSHOT.jar
 
-test_duration_seconds=200
-split_time_min=1
+test_duration_seconds=900
+split_time_min=5
 
 ##########################
 #Test Begins
@@ -79,7 +80,7 @@ split_time_min=1
 		done
 		
 		# Start JMeter server
-        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
+        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds} -Jgroup1.host=${host1_ip} -Jgroup1.port=${host1_port} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
 		
 		echo "Test for ${u} users completed"
 	done

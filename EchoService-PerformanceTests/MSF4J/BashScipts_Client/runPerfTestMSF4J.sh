@@ -19,7 +19,8 @@
 
 echo "Start Testing"
 
-concurrent_users=(10 20)
+concurrent_users=(700 1000)
+#did for 100
 
 #########################
 #MSF4J Host Machine 
@@ -27,25 +28,25 @@ concurrent_users=(10 20)
 
 host1_ip=192.168.0.2
 host1_port=9090
-host1_username_ip=user@192.168.0.2
-host1_password=user
+host1_username_ip=Dell@192.168.0.2
+host1_password=T@19900119
 
 ##########################
 #Client Machine 
 ##########################
 
-file_host1_remote_commands=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/MSF4J/BashScipts_Client/startHelloMSF4J.txt
-file_host1_kill_msf4jservice=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/MSF4J/BashScipts_Client/killHelloMSF4J.txt
+file_host1_remote_commands=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/2_MSF4J/BashScipts_Client/startHelloMSF4J.txt
+file_host1_kill_msf4jservice=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/2_MSF4J/BashScipts_Client/killHelloMSF4J.txt
 
 path_putty=E:/1_2018_Installed/putty/putty.exe
 path_jmeter=E:/4_Year_1_Sem/SENG_Research/4_Software/apache-jmeter-4.0/apache-jmeter-4.0/bin/jmeter.sh
 
-location_jtls=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/MSF4J/jtl_Results_Round1
-location_jmx_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/MSF4J/MS4J_Echo_Service_Test.jmx
-location_jtl_splitter_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/MSF4J/jtl-splitter-0.1.1-SNAPSHOT.jar
+location_jtls=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/2_MSF4J/jtl_Results_Round4
+location_jmx_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/2_MSF4J/MS4J_Echo_Service_Test.jmx
+location_jtl_splitter_file=E:/4_Year_1_Sem/SENG_Research/5_Repos/PerformanceTests/EchoService-PerformanceTests/2_MSF4J/jtl-splitter-0.1.1-SNAPSHOT.jar
 
-test_duration_seconds=200
-split_time_min=1
+test_duration_seconds=900
+split_time_min=5
 
 ##########################
 #Test Begins
@@ -55,13 +56,14 @@ split_time_min=1
 	do
 		total_users=$(($u))
 		report_location=${location_jtls}/${total_users}_users
+		report_loc=${location_jtls}/${total_users}_users/rp.jtl
 		echo "Report location is ${report_location}"
 		mkdir -p $report_location
 		
 		# SSH
 		echo "Begin SSH"
 		Start ${path_putty} -ssh  ${host1_username_ip} -pw ${host1_password} -m ${file_host1_remote_commands} 
-		sleep 5
+		sleep 7
 		
 		# Check service
 		while true 
@@ -79,14 +81,10 @@ split_time_min=1
 		done
 		
 		# Start JMeter server
-        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
+        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds}  -Jgroup1.host=${host1_ip} -Jgroup1.port=${host1_port} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
 		
 		echo "Test for ${u} users completed"
 	done
-
-	#Closing putty
-	#powershell kill -n putty
-	#echo "closed putty"
 	
 echo "Generating JTL files Completed"
 

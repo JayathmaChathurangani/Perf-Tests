@@ -80,7 +80,7 @@ split_time_min=5
 		done
 		
 		# Start JMeter server
-        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
+        ${path_jmeter}  -Jgroup1.threads=$u -Jgroup1.seconds=${test_duration_seconds} -Jgroup1.host=${host1_ip} -Jgroup1.port=${host1_port} -n -t ${location_jmx_file} -l ${report_location}/results.jtl
 		
 		echo "Test for ${u} users completed"
 	done

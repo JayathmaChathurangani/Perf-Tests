@@ -55,7 +55,7 @@ payload_files_extension=json
 test_duration_seconds=900
 split_time_min=5
 
-/'
+:'
 ##########################
 #Test for local machine
 ##########################
